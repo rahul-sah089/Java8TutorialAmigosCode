@@ -1,0 +1,153 @@
+=======================================================================
+Different way of writing Lambda Expression:
+1) The simplest way:
+FileFilter file = (File file) -> file.getName().endsWith(".java");
+
+2) If you have more then one line of code:
+Runnable run = () ->{
+    for(int i = 0 ; i < 5; i++){
+        System.out.println('Hello World');
+    }
+}
+
+3) If you have more then one argument:
+Comparator<String> comparator = (String s1,string s2) -> Integer.compare(s1.length(),s2.length());
+
+1) What is Type of Lambda Expression?
+Ans) A Functional Interface
+========================================
+2) What is an Functional Interface?
+ A functional Interface is an interface with only one abstract method
+ Methods from the Object class don't count
+ The compiler can tell me whether the interface is functional or not
+Example:
+public interface Runnable{
+    run();
+}
+
+public interface Comparator<T>{
+    int compare(T a,T b);
+}
+
+public interface FileFilter{
+    boolean accept(File pathname);
+}
+========================================
+
+Can lambda be put in a variable?
+Ans) Yes
+Comparator<String> c = (String s1,String s2) -> Integer.compare(s1.length(),s2.length());
+here we can see the Lambda expression assigned to a variable
+========================================
+Is Lambda expression is an Object?
+
+
+=======================================================================
+
+Lambda Expression
+The Stream API and collectors
+Java FX
+Nashorn
+
+
+
+
+In Java we usually do Imperative programming
+What is the difference between Imperative and Declarative Programming?
+Why to move away from Imperative Programming
+Why we need to move to Functional Programming?
+1) Functions
+2) BiFunctions
+3) Predicates
+4) Consumers
+5) Suppliers
+Once you understand the you will start using Streams and Optionals to write code in Declartive way
+Best design pattern when it comes to functional programming i.e; Combinator Design Pattern
+Lambda , Callbacks and properties of functional programming so that you fully understand the whole concept
+
+===================================================================================================
+https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html
+Functional Interface provides target types for Lambda expressions and method reference
+Each functional Interface can contains only single abstract method, called functional method,
+to which the Lambda expression's parameter and return types are matched or adapted.
+1) Consumer
+2) Predicate<T> - Represent a Boolean value function of one argument
+3) Supplier
+4) Function - It accepts one argument and produces one result
+5) BiFunction - It accepts two argument and produces one result
+===================================================================================================
+How do we process Data in Java?
+-> We need to understand where is our data, it can be in Collection(maybe list, set , Map etc)
+
+What is the use of the Default methods?
+This is a new concept in Java 8
+It allows to change the old interface without breaking the existing implementations
+It allows new patterns!
+And by the ways:
+Static method allowed in Interface
+====================================================================================
+Example Code for Default Interface in JDK:
+Example 1:
+Predicate<String> p1 = s -> s.length() > 20;
+Predicate<String> p2 = s -> s.length() < 10;
+Predicate<String> s3 = p1.and(p2);
+
+public interface Predicate<T>{
+    boolean test(T t);
+
+    default Predicate<T> and(Predicate<? super T> others){
+        Object.requireNonNull(other);
+        return -> (t) -> test(t)  && other.test(t);
+    }
+}
+Example 2:
+Predicate<String> id = Predicate.isEqual(target);
+
+====================================================================================
+Java Streams:
+Map/Filter/Reduce
+Example,
+let take a list of person
+List<Person> list = new ArrayList<>();
+
+Suppose you want to compute the average age older than 20,
+->1st step:mapping
+->The mapping step takes a List<Person> and returns a List<Integer>
+->The size of both the list is the same
+
+2nd Step : filter:
+-> The filter takes List<Integer> and returns a List<Integer>
+-> But there some elements have been filtered out in the process
+
+3rd Step : Average
+-> This is the reduction step, equivalent to SQL aggregation(sum,max,min,average)
+
+What is Stream?
+Streams are typed Interface, typed means it can be either Integer,String, Boolean etc etc
+Public Interface Stream<T> extends BaseStream<T,Stream<T>>{
+
+}
+
+And a new concept!
+
+What does it do?
+It gives way to efficiently process large amount of data and also smaller ones
+
+What does effectivity means?
+Two Things:
+In parallel, to leverage the computing power of the multicore CPUs
+Pipelined, to avoid unnecessary intermediate operations
+
+Why cant be add Stream directly to the Collections Interface?
+Because it is a new concept Introduced from java 8 , and we don't want to change the way the Collections APIS works
+
+
+Stream is an object on which I can define operations
+An object that doesn't hold data
+An object that should not change the incoming data source , or data it processes
+An object able to process data in one pass
+An object that is optimized from the algorithm point of view and able to process dat in parallel
+
+
+
+
